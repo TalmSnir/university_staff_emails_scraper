@@ -10,13 +10,14 @@ chrome_options.add_experimental_option("detach", True)
 
 
 driver = webdriver.Chrome(
-    'staff_emails_scraper\chromedriver.exe', options=chrome_options)
+    './chromedriver.exe', options=chrome_options)
+url = 'https://www.tau.ac.il/tau/index'
 
 driver.maximize_window()
-driver.get('https://www.tau.ac.il/tau/index')
+driver.get(url)
 
-# insert professor's names to the list
-teachers_list = []
+# !insert professor's names to the list
+teachers_list = ['']
 
 with open('university_prof_emails_database.csv', 'a', newline='', encoding='utf-8-sig') as database:
     database_writer = csv.writer(database)
@@ -42,3 +43,4 @@ with open('university_prof_emails_database.csv', 'a', newline='', encoding='utf-
         email_text = re.findall('[^:]+@+\S+', email.get_attribute("href"))
         database_writer.writerow([teacher, title_description, email_text[0]])
         time.sleep(2)
+driver.close()
